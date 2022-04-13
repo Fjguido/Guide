@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Node from './Node/Node';
+// import {bfs} from '../Algo/bfs';
 import './Pathfinder.css';
 
 
@@ -40,7 +41,7 @@ class Pathfinder extends Component {
       this.setState({grid});
     }
     
-  
+  //toggle isRunning to be true/false
     toggleIsRunning() {
       this.setState({isRunning: !this.state.isRunning});
     }
@@ -210,7 +211,7 @@ class Pathfinder extends Component {
         this.getInitialGrid();
       }
     }
-// 
+
     handleMouseLeave() {
       if (this.state.isStartNode) {
         const isStartNode = !this.state.isStartNode;
@@ -224,6 +225,7 @@ class Pathfinder extends Component {
         this.getInitialGrid();
       }
     }
+
     render() {
         const {grid, mouseIsPressed} = this.state;
         return (
@@ -332,29 +334,29 @@ class Pathfinder extends Component {
         }
       }
     }
-    
 
+
+    
+// clear grid of visited nodes
     isGridClear() {
         for (const row of this.state.grid) {
           for (const node of row) {
             const nodeClassName = document.getElementById(
               `node-${node.row}-${node.col}`,
             ).className;
-            if (
-              nodeClassName === 'node node-visited' ||
-              nodeClassName === 'node node-shortest-path'
-            ) {
-              return false;
+            if ( nodeClassName === 'node node-visited' || nodeClassName === 'node node-shortest-path') 
+            { return false;
             }
           }
         }
         return true;
       }
     
-  // clear walls
+  // clear created walls
     clearWalls() {
       if (!this.state.isRunning) {
         const newGrid = this.state.grid.slice();
+        // 
         for (const row of newGrid) {
           for (const node of row) {
             let nodeClassName = document.getElementById(
@@ -363,7 +365,7 @@ class Pathfinder extends Component {
             if (nodeClassName === 'node node-wall') {
               document.getElementById(`node-${node.row}-${node.col}`).className =
                 'node';
-              node.isWall = false;
+              node.isWall = true;
             }
           }
         }
@@ -376,7 +378,6 @@ class Pathfinder extends Component {
     // used slice b/c returns new array containing a copy of original array
     const newGrid = grid.slice();
     const node = newGrid[row][col];
-    //
     if (!node.isStart && !node.isFinish && node.isNode) {
       const newNode = {...node, isWall: !node.isWall};
       newGrid[row][col] = newNode;

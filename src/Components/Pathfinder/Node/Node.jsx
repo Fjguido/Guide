@@ -32,5 +32,6 @@ class Node extends Component {
         );
       }
     }
+    
 
 export default Node;
