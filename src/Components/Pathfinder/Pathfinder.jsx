@@ -9,43 +9,50 @@ class Pathfinder extends Component {
       super();
       this.state = {
         grid: [],
+        //position of starting/ending points
         START_NODE_ROW: 5,
         FINISH_NODE_ROW: 5,
         START_NODE_COL: 5,
         FINISH_NODE_COL: 29,
+        //---------------------
         mouseIsPressed: false,
         ROW_COUNT: 22,
         COLUMN_COUNT: 35,
+        // false for initial grid - start off empty
         isRunning: false,
         isStartNode: false,
         isFinishNode: false,
+        //-----------------------
         currRow: 0,
         currCol: 0,
       };
       
       // main three mouse movements 
+      // need to use .bind to make 'this' work when calling back
       this.handleMouseDown = this.handleMouseDown.bind(this);
       this.handleMouseLeave = this.handleMouseLeave.bind(this);
       this.toggleIsRunning = this.toggleIsRunning.bind(this);
+      //---------------------------------------------------
     }
   
     componentDidMount() {
       const grid = this.getInitialGrid();
       this.setState({grid});
     }
+    
   
     toggleIsRunning() {
       this.setState({isRunning: !this.state.isRunning});
     }
-  
    
   
-// grid setup
+// grid setup - by using state properties
     getInitialGrid = (
       rowCount = this.state.ROW_COUNT,
       colCount = this.state.COLUMN_COUNT,
     ) => {
       const initialGrid = [];
+      // for loop to repeat rows/columns
       for (let row = 0; row < rowCount; row++) {
         const currentRow = [];
         for (let col = 0; col < colCount; col++) {
@@ -53,40 +60,48 @@ class Pathfinder extends Component {
         }
         initialGrid.push(currentRow);
       }
+      // shows grid
       return initialGrid;
     };
   
+    //setting up starting/ending point "node"
     createNode = (row, col) => {
       return {
         row,
         col,
+        // this sets up the position of the starting/ending node based on the state
         isStart:
           row === this.state.START_NODE_ROW && col === this.state.START_NODE_COL,
         isFinish:
           row === this.state.FINISH_NODE_ROW &&
           col === this.state.FINISH_NODE_COL,
-        distance: Infinity,
+        //---------------------------------------------------------------------------
+        // used math.abs for no negative numbers
         distanceToFinishNode:
           Math.abs(this.state.FINISH_NODE_ROW - row) +
           Math.abs(this.state.FINISH_NODE_COL - col),
+        //----------------------------------------------
 
         // ------------- makes sure wall is not being used initially 
         isVisited: false,
         isWall: false,
         // -------------
+        // true to be mark 
         previousNode: null,
         isNode: true,
       };
     };
   
-// mouse movements
+//holding clicked mouse/clicked mouse on grid - will let walls appear 
     handleMouseDown(row, col) {
       if (!this.state.isRunning) {
         if (this.isGridClear()) {
           if (
+              // created Id in Node component in Node.jsx - made it equal to className in Node.css
             document.getElementById(`node-${row}-${col}`).className ===
             'node node-start'
           ) {
+              //setState to let updates appear 
             this.setState({
               mouseIsPressed: true,
               isStartNode: true,
@@ -112,6 +127,7 @@ class Pathfinder extends Component {
               currRow: row,
               currCol: col,
             });
+            //----------------------------------------------------------------------
           }
         } else {
           this.clearGrid();
@@ -119,38 +135,25 @@ class Pathfinder extends Component {
       }
     }
   
-    isGridClear() {
-      for (const row of this.state.grid) {
-        for (const node of row) {
-          const nodeClassName = document.getElementById(
-            `node-${node.row}-${node.col}`,
-          ).className;
-          if (
-            nodeClassName === 'node node-visited' ||
-            nodeClassName === 'node node-shortest-path'
-          ) {
-            return false;
-          }
-        }
-      }
-      return true;
-    }
-  
+
     handleMouseEnter(row, col) {
       if (!this.state.isRunning) {
         if (this.state.mouseIsPressed) {
           const nodeClassName = document.getElementById(`node-${row}-${col}`)
             .className;
+              
           if (this.state.isStartNode) {
+              // lets start node not be put in a wall node -> !==
             if (nodeClassName !== 'node node-wall') {
               const prevStartNode = this.state.grid[this.state.currRow][
                 this.state.currCol
               ];
               prevStartNode.isStart = false;
+              //-----------------------------------------
               document.getElementById(
                 `node-${this.state.currRow}-${this.state.currCol}`,
               ).className = 'node';
-  
+                // setState to keep updated changes - sets up new starting position
               this.setState({currRow: row, currCol: col});
               const currStartNode = this.state.grid[row][col];
               currStartNode.isStart = true;
@@ -158,16 +161,21 @@ class Pathfinder extends Component {
                 'node node-start';
             }
             this.setState({START_NODE_ROW: row, START_NODE_COL: col});
-          } else if (this.state.isFinishNode) {
+            //-------------------------------------
+          }
+              
+           else if (this.state.isFinishNode) {
+               // lets end node not be put in a wall node -> !==
             if (nodeClassName !== 'node node-wall') {
               const prevFinishNode = this.state.grid[this.state.currRow][
                 this.state.currCol
               ];
               prevFinishNode.isFinish = false;
+              //-----------------------------------------
               document.getElementById(
                 `node-${this.state.currRow}-${this.state.currCol}`,
               ).className = 'node';
-  
+                // setState to keep updated changes - sets up new ending position
               this.setState({currRow: row, currCol: col});
               const currFinishNode = this.state.grid[row][col];
               currFinishNode.isFinish = true;
@@ -175,6 +183,7 @@ class Pathfinder extends Component {
                 'node node-finish';
             }
             this.setState({FINISH_NODE_ROW: row, FINISH_NODE_COL: col});
+                //-------------------------------------
           } else if (this.state.isWallNode) {
             const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
             this.setState({grid: newGrid});
@@ -182,7 +191,8 @@ class Pathfinder extends Component {
         }
       }
     }
-  
+
+  //To stop making walls when you let go of mouse - lets you click to make new wall
     handleMouseUp(row, col) {
       if (!this.state.isRunning) {
         this.setState({mouseIsPressed: false});
@@ -200,7 +210,7 @@ class Pathfinder extends Component {
         this.getInitialGrid();
       }
     }
-  
+// 
     handleMouseLeave() {
       if (this.state.isStartNode) {
         const isStartNode = !this.state.isStartNode;
@@ -214,6 +224,71 @@ class Pathfinder extends Component {
         this.getInitialGrid();
       }
     }
+    render() {
+        const {grid, mouseIsPressed} = this.state;
+        return (
+          <div>
+              <a href="/">
+                  <div className="title">
+                <b>Guide</b>
+                </div>
+              </a>  
+            <table
+              className="grid-container"
+              onMouseLeave={() => this.handleMouseLeave()}>
+              <tbody className="grid">
+                {grid.map((row, rowIdx) => {
+                  return (
+                    <tr key={rowIdx}>
+                      {row.map((node, nodeIdx) => {
+                        const {row, col, isFinish, isStart, isWall} = node;
+                        return (
+                          <Node
+                            key={nodeIdx}
+                            col={col}
+                            isFinish={isFinish}
+                            isStart={isStart}
+                            isWall={isWall}
+                            mouseIsPressed={mouseIsPressed}
+                            onMouseDown={(row, col) =>
+                              this.handleMouseDown(row, col)
+                            }
+                            onMouseEnter={(row, col) =>
+                              this.handleMouseEnter(row, col)
+                            }
+                            onMouseUp={() => this.handleMouseUp(row, col)}
+                            row={row}>     
+                        </Node>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            <button
+              type="button"
+              className="clearWall"
+              onClick={() => this.clearWalls()}>
+              Clear Walls
+            </button>
+           
+            <button
+              type="button"
+              className="bfsBtn"
+              onClick={() => this.visualize('BFS')}>
+              Breadth First Search
+            </button>
+            <button
+              type="button"
+              className="dfsBtn"
+              onClick={() => this.visualize('DFS')}>
+              Depth First Search
+            </button>
+       
+          </div>
+        );
+      }
 
   // clear grid
     clearGrid() {
@@ -258,6 +333,24 @@ class Pathfinder extends Component {
       }
     }
     
+
+    isGridClear() {
+        for (const row of this.state.grid) {
+          for (const node of row) {
+            const nodeClassName = document.getElementById(
+              `node-${node.row}-${node.col}`,
+            ).className;
+            if (
+              nodeClassName === 'node node-visited' ||
+              nodeClassName === 'node node-shortest-path'
+            ) {
+              return false;
+            }
+          }
+        }
+        return true;
+      }
+    
   // clear walls
     clearWalls() {
       if (!this.state.isRunning) {
@@ -276,90 +369,23 @@ class Pathfinder extends Component {
         }
       }
     }
-  
-    render() {
-      const {grid, mouseIsPressed} = this.state;
-      return (
-        <div>
-            <a href="/">
-                <div className="title">
-              <b>Guide</b>
-              </div>
-            </a>  
-          <table
-            className="grid-container"
-            onMouseLeave={() => this.handleMouseLeave()}>
-            <tbody className="grid">
-              {grid.map((row, rowIdx) => {
-                return (
-                  <tr key={rowIdx}>
-                    {row.map((node, nodeIdx) => {
-                      const {row, col, isFinish, isStart, isWall} = node;
-                      return (
-                        <Node
-                          key={nodeIdx}
-                          col={col}
-                          isFinish={isFinish}
-                          isStart={isStart}
-                          isWall={isWall}
-                          mouseIsPressed={mouseIsPressed}
-                          onMouseDown={(row, col) =>
-                            this.handleMouseDown(row, col)
-                          }
-                          onMouseEnter={(row, col) =>
-                            this.handleMouseEnter(row, col)
-                          }
-                          onMouseUp={() => this.handleMouseUp(row, col)}
-                          row={row}></Node>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <button
-            type="button"
-            className="clearWall"
-            onClick={() => this.clearWalls()}>
-            Clear Walls
-          </button>
-         
-          <button
-            type="button"
-            className="bfsBtn"
-            onClick={() => this.visualize('BFS')}>
-            Bread First Search
-          </button>
-          <button
-            type="button"
-            className="dfsBtn"
-            onClick={() => this.visualize('DFS')}>
-            Depth First Search
-          </button>
-     
-        </div>
-      );
-    }
   }
   
-// create walls
+// creating new grid with created walls
   const getNewGridWithWallToggled = (grid, row, col) => {
-    
+    // used slice b/c returns new array containing a copy of original array
     const newGrid = grid.slice();
     const node = newGrid[row][col];
+    //
     if (!node.isStart && !node.isFinish && node.isNode) {
-      const newNode = {
-        ...node,
-        isWall: !node.isWall,
-      };
+      const newNode = {...node, isWall: !node.isWall};
       newGrid[row][col] = newNode;
     }
     return newGrid;
   };
   
+
   // Backtracks from the finishNode to find the shortest path.
-  // Only works when called after the pathfinding methods.
   function getNodesInShortestPathOrder(finishNode) {
     const nodesInShortestPathOrder = [];
     let currentNode = finishNode;
