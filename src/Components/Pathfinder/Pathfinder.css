@@ -1,0 +1,20 @@
+.grid-container {
+    margin: 1% auto;
+  }
+  
+  .grid {
+    white-space: pre;
+  }
+  
+  button {
+    margin: 1px;
+  }
+
+  body {
+    background-color: rgb(255, 253, 253);
+  }
+  
+  .title b{
+    color: #000000;
+    text-decoration: underline;
+  }
