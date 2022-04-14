@@ -1,10 +1,10 @@
-import React from 'react'
+
 
 // Returns visted nodes in order 
 // Makes nodes go back to thier previous node to show shortest path by tracking back from the ending node
 
 
-function bfs(grid, startNode, finishNode){
+export function bfs(grid, startNode, finishNode){
     const visitedNodesInOrder = [];
     let nextNodesStack = [startNode];
     // .length to return length of nodes to see how many were visited from start to end
@@ -55,4 +55,3 @@ function bfs(grid, startNode, finishNode){
     }
 }
 
-export default bfs;

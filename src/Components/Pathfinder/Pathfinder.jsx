@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Node from './Node/Node';
-// import {bfs} from '../Algo/bfs';
+import {bfs} from '../Algo/bfs';
+import {dfs} from '../Algo/dfs';
 import './Pathfinder.css';
 
 
@@ -225,7 +226,78 @@ class Pathfinder extends Component {
         this.getInitialGrid();
       }
     }
-    
+
+    //add visualization 
+    visualize(algo) {
+      if (!this.state.isRunning) {
+        this.clearGrid();
+        this.toggleIsRunning();
+        const {grid} = this.state;
+        const startNode = grid[this.state.START_NODE_ROW][this.state.START_NODE_COL];
+        const finishNode = grid[this.state.START_NODE_ROW][this.state.START_NODE_COL];
+        let visitedNodesInOrder;
+
+        switch(algo) {
+          case 'bfs':
+            visitedNodesInOrder = bfs(grid, startNode, finishNode)
+            break;
+          case 'dfs':
+            visitedNodesInOrder = dfs(grid,startNode, finishNode)
+            break;
+        }
+        const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+        nodesInShortestPathOrder.push('end');
+        this.animate(visitedNodesInOrder, nodesInShortestPathOrder);
+      }
+    }
+
+    animate(visitedNodesInOrder, nodesInShortestPathOrder) {
+      for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+        if (i === visitedNodesInOrder.length) {
+          setTimeout(() => {
+            this.animateShortestPath(nodesInShortestPathOrder);
+          }, 10 * i);
+          return;
+        }
+        setTimeout(() => {
+          const node = visitedNodesInOrder[i];
+          const nodeClassName = document.getElementById(
+            `node-${node.row}-${node.col}`,
+          ).className;
+          if (
+            nodeClassName !== 'node node-start' &&
+            nodeClassName !== 'node node-finish'
+          ) {
+            document.getElementById(`node-${node.row}-${node.col}`).className =
+              'node node-visited';
+          }
+        }, 10 * i);
+      }
+    }
+// path from starting point to ending point
+    animateShortestPath(nodesInShortestPathOrder) {
+      for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
+        if (nodesInShortestPathOrder[i] === 'end') {
+          setTimeout(() => {
+            this.toggleIsRunning();
+          }, i * 50);
+        } else {
+          setTimeout(() => {
+            const node = nodesInShortestPathOrder[i];
+            const nodeClassName = document.getElementById(
+              `node-${node.row}-${node.col}`,
+            ).className;
+            if (
+              nodeClassName !== 'node node-start' &&
+              nodeClassName !== 'node node-finish'
+            ) {
+              document.getElementById(`node-${node.row}-${node.col}`).className =
+                'node node-shortest-path';
+            }
+          }, i * 40);
+        }
+      }
+    }
 
     render() {
         const {grid, mouseIsPressed} = this.state;
@@ -279,13 +351,13 @@ class Pathfinder extends Component {
             <button
               type="button"
               className="bfsBtn"
-              onClick={() => this.visualize('BFS')}>
+              onClick={() => this.visualize('bfs')}>
               Breadth First Search
             </button>
             <button
               type="button"
               className="dfsBtn"
-              onClick={() => this.visualize('DFS')}>
+              onClick={() => this.visualize('dfs')}>
               Depth First Search
             </button>
        
