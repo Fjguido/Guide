@@ -22,6 +22,7 @@ class Node extends Component {
 
         return (
           <div
+          // interpolated row and col b/c values are long 
             id={`node-${row}-${col}`}
             className={`node ${extraClassName}`}
             onMouseDown={() => onMouseDown(row, col)}

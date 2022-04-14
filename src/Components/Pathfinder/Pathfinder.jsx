@@ -225,6 +225,7 @@ class Pathfinder extends Component {
         this.getInitialGrid();
       }
     }
+    
 
     render() {
         const {grid, mouseIsPressed} = this.state;
@@ -292,7 +293,7 @@ class Pathfinder extends Component {
         );
       }
 
-  // clear grid
+  // clearing grid
     clearGrid() {
       if (!this.state.isRunning) {
         const newGrid = this.state.grid.slice();
@@ -337,7 +338,7 @@ class Pathfinder extends Component {
 
 
     
-// clear grid of visited nodes
+// clearing grid of visited nodes
     isGridClear() {
         for (const row of this.state.grid) {
           for (const node of row) {
