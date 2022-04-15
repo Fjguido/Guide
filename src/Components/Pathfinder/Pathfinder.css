@@ -17,7 +17,7 @@
   } */
 
   body {
-    background-color: #BEC0C2;
+    background-color: #fafdff;
   }
   
   .title b{
@@ -37,7 +37,7 @@
     border-radius: 4px;
     box-shadow: rgba(4, 0, 255, 0.788) 4px 4px 0 0,#000 4px 4px 0 1px;
     box-sizing: border-box;
-    color: rgb(226, 128, 0);
+    color: rgb(0, 0, 0);
     cursor: pointer;
     display: inline-block;
     font-family: ITCAvantGardeStd-Bk,Arial,sans-serif;
@@ -70,7 +70,7 @@
   }
   
   button:not([disabled]):active {
-    box-shadow: #fff 2px 2px 0 0, #000 2px 2px 0 1px;
+    box-shadow: rgb(226, 128, 0) 2px 2px 0 0, #000 2px 2px 0 1px;
     transform: translate(2px, 2px);
   }
   
