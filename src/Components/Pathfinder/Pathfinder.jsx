@@ -244,12 +244,13 @@ handleMouseEnter(row, col) {
     }
   }
 
-// clearing grid
+// clearing grid animations - not walls
 clearGrid() {
   if (!this.state.isRunning) {
     const newGrid = this.state.grid.slice();
     for (const row of newGrid) {
       for (const node of row) {
+      // used getElementById to get className to target animation 
         let nodeClassName = document.getElementById(
           `node-${node.row}-${node.col}`,
         ).className;
@@ -261,19 +262,16 @@ clearGrid() {
           document.getElementById(`node-${node.row}-${node.col}`).className =
             'node';
           node.isVisited = false;
-          node.distance = Infinity;
           node.distanceToFinishNode =
             Math.abs(this.state.FINISH_NODE_ROW - node.row) +
             Math.abs(this.state.FINISH_NODE_COL - node.col);
         }
         if (nodeClassName === 'node node-finish') {
           node.isVisited = false;
-          node.distance = Infinity;
           node.distanceToFinishNode = 0;
         }
         if (nodeClassName === 'node node-start') {
           node.isVisited = false;
-          node.distance = Infinity;
           node.distanceToFinishNode =
             Math.abs(this.state.FINISH_NODE_ROW - node.row) +
             Math.abs(this.state.FINISH_NODE_COL - node.col);
@@ -326,7 +324,6 @@ clearWalls() {
           visitedNodesInOrder = dfs(grid, startNode, finishNode);
           break;
         default:
-          // should never get here
           break;
       }
       const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
