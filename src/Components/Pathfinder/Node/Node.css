@@ -28,20 +28,20 @@
     animation-fill-mode: forwards;
     animation-play-state: running;
   }
-
+  
   @keyframes visitedAnimation {
-    0% {
-      transform: scale(0.3);
+    /* 0% {
+      transform: scale(3);
       background-color: rgba(4, 0, 255, 0.788);
       border-radius: 100%;
     }
   
     50% {
       background-color: rgba(48, 92, 238, 0.75);
-    }
+    } */
   
     75% {
-      transform: scale(1.2);
+      transform: scale(.4);
       background-color: rgba(88, 181, 235, 0.75);
     }
   

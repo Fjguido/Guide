@@ -1,6 +1,8 @@
 
-// Returns visted nodes in order 
-// Makes nodes go back to thier previous node to show shortest path by tracking back from the ending node
+// you first explore all the nodes one step away, then all the nodes two steps away, etc.
+// Breadth-first search is like throwing a stone in the center of a pond. 
+// The nodes you explore "ripple out" from the starting point until it reaches the "ending" point.
+// will find the shortest path between the starting point and any other reachable node.
 
 export function bfs(grid, startNode, finishNode) {
     const visitedNodesInOrder = [];
