@@ -14,12 +14,12 @@ class Pathfinder extends Component {
       //position of starting/ending points
       START_NODE_ROW: 5,
       FINISH_NODE_ROW: 5,
-      START_NODE_COL: 5,
-      FINISH_NODE_COL: 29,
+      START_NODE_COL: 11,
+      FINISH_NODE_COL: 38,
       //---------------------
       mouseIsPressed: false,
       ROW_COUNT: 22,
-      COLUMN_COUNT: 35,
+      COLUMN_COUNT: 50,
       // false for initial grid - start off empty
       isRunning: false,
       isStartNode: false,
