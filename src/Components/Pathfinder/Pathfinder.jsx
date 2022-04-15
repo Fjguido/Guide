@@ -431,6 +431,12 @@ clearWalls() {
         </table>
         <button
           type="button"
+          className="btn btn-danger"
+          onClick={() => this.clearGrid()}>
+          Clear Grid
+        </button>
+        <button
+          type="button"
           className="clearWall"
           onClick={() => this.clearWalls()}>
           Clear Walls
