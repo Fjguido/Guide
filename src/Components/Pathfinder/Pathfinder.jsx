@@ -442,7 +442,7 @@ clearWalls() {
         <button
           type="button"
           className="dfsBtn"
-          onClick={() => this.visualize('dfs')}>
+          onClick={() => this.visualize('DFS')}>
           Depth First Search
         </button>
    
