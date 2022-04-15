@@ -358,7 +358,7 @@ clearWalls() {
           document.getElementById(`node-${node.row}-${node.col}`).className =
             'node node-visited';
         }
-      }, 1 * i);
+      }, 10 * i);
     }
   }
 
@@ -448,6 +448,7 @@ clearWalls() {
           onClick={() => this.visualize('DFS')}>
           Depth First Search
         </button>
+      
    
       </div>
     );
