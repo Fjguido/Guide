@@ -338,13 +338,16 @@ clearWalls() {
   animate(visitedNodesInOrder, nodesInShortestPathOrder) {
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       if (i === visitedNodesInOrder.length) {
+        //used setTimout to show animation of shortestpath 10 seconds later
         setTimeout(() => {
           this.animateShortestPath(nodesInShortestPathOrder);
         }, 10 * i);
         return;
       }
+      // animation of visited nodes - used setTimeout again to show animation
       setTimeout(() => {
         const node = visitedNodesInOrder[i];
+        // used getElementById to get className to show animation 
         const nodeClassName = document.getElementById(
           `node-${node.row}-${node.col}`,
         ).className;
@@ -355,7 +358,7 @@ clearWalls() {
           document.getElementById(`node-${node.row}-${node.col}`).className =
             'node node-visited';
         }
-      }, 10 * i);
+      }, 1 * i);
     }
   }
 
