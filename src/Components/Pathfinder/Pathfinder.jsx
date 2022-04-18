@@ -1,11 +1,14 @@
-import React, {Component} from 'react';
+import React, {Component, useState } from 'react';
 import Node from './Node/Node';
 import {bfs} from '../Algo/bfs';
 import {dfs} from '../Algo/dfs';
-import './Pathfinder.css';
+import './Pathfinder.scss';
+
+
 
 
 class Pathfinder extends Component {
+
   constructor() {
     // used super to access and call functions on an object's parent
     super();
@@ -15,11 +18,15 @@ class Pathfinder extends Component {
       START_NODE_ROW: 5,
       FINISH_NODE_ROW: 5,
       START_NODE_COL: 11,
+      // START_NODE_COL: 23,
       FINISH_NODE_COL: 38,
+      // FINISH_NODE_COL: 57,
       //---------------------
       mouseIsPressed: false,
-      ROW_COUNT: 22,
+      ROW_COUNT: 20,
       COLUMN_COUNT: 50,
+      // ROW_COUNT: 30,
+      // COLUMN_COUNT: 80,
       // false for initial grid - start off empty
       isRunning: false,
       isStartNode: false,
@@ -426,12 +433,14 @@ clearWalls() {
             })}
           </tbody>
         </table>
+      
         <button
           type="button"
           className="btn btn-danger"
           onClick={() => this.clearGrid()}>
           Clear Grid
         </button>
+       
         <button
           type="button"
           className="clearWall"
@@ -451,8 +460,6 @@ clearWalls() {
           onClick={() => this.visualize('DFS')}>
           Depth First Search
         </button>
-      
-   
       </div>
     );
   }
