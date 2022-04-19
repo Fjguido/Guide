@@ -393,7 +393,7 @@ clearWalls() {
     const {grid, mouseIsPressed} = this.state;
     return (
       <div>
-          <a href="/">
+          <a href="/https://fjguido.github.io/guide/">
               <div className="title">
             <b>Guide</b>
             </div>
