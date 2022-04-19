@@ -1,12 +1,8 @@
-import React, {Component, useState } from 'react';
+import React, {Component} from 'react';
 import Node from './Node/Node';
 import {bfs} from '../Algo/bfs';
 import {dfs} from '../Algo/dfs';
 import './Pathfinder.scss';
-
-
-
-
 class Pathfinder extends Component {
 
   constructor() {
@@ -134,6 +130,7 @@ handleMouseDown(row, col) {
         const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
         this.setState({
           grid: newGrid,
+          // true so you can press and drag to create walls
           mouseIsPressed: true,
           isWallNode: true,
           currRow: row,
@@ -240,6 +237,7 @@ handleMouseEnter(row, col) {
   handleMouseLeave() {
     if (this.state.isStartNode) {
       const isStartNode = !this.state.isStartNode;
+      // keeps start node at spot where you moved it 
       this.setState({isStartNode, mouseIsPressed: false});
     } else if (this.state.isFinishNode) {
       const isFinishNode = !this.state.isFinishNode;
