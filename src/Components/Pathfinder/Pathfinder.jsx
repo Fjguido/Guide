@@ -393,11 +393,11 @@ clearWalls() {
     const {grid, mouseIsPressed} = this.state;
     return (
       <div>
-        
+        <a href=""> 
               <div className="title">
             <b>Guide</b>
             </div>
-          
+            </a>
         <table
           className="grid-container"
           onMouseLeave={() => this.handleMouseLeave()}>
