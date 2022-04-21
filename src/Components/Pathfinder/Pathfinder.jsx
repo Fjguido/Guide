@@ -458,6 +458,7 @@ clearWalls() {
           onClick={() => this.visualize('DFS')}>
           Depth First Search
         </button>
+      
       </div>
     );
   }

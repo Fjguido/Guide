@@ -8,7 +8,7 @@
 // Finally, show the nodes of the path from the starting point to the ending point.
 
 export function dfs(grid, startNode, finishNode) {
-    //begin with empty array
+    //begin with empty array - to start a queue of nodes that would be visited
     const visitedNodesInOrder = [];
     const nextNodesStack = [];
     // .push to add node in end of array
@@ -22,7 +22,7 @@ export function dfs(grid, startNode, finishNode) {
         }
 
         if (
-            !currentNode.isWall && (currentNode.isStart || !currentNode.isVIsited)
+            !currentNode.isWall && (currentNode.isStart || !currentNode.isVisited)
         ) {
             currentNode.isVisited = true;
             visitedNodesInOrder.push(currentNode);
