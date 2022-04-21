@@ -28,11 +28,15 @@ export function bfs(grid, startNode, finishNode) {
         let nextNode;
         if (row > 0) {
           nextNode = grid[row-1][col];
+          // if node is not visited - it will be added to the next queue of unvisited nodes
           if (!nextNode.isVisited) {
             nextNode.previousNode = currentNode;
             nextNodesStack.push(nextNode);
           }
         }
+        // below if statement represent all possible directions and checks if all indexs are valid indexes in the grid - and the value is equal to the starting point
+        // need both row and col not negative
+        //row index is less than number of rows in grid 
         if (row < grid.length - 1) {
           nextNode = grid[row + 1][col];
           if (!nextNode.isVisited) {
@@ -47,6 +51,7 @@ export function bfs(grid, startNode, finishNode) {
             nextNodesStack.push(nextNode);
           }
         }
+        // need column index less than number of cols in grid
         if (col < grid[0].length - 1) {
           nextNode = grid[row][col + 1];
           if (!nextNode.isVisited) {

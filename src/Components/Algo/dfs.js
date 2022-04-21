@@ -8,16 +8,19 @@
 // Finally, show the nodes of the path from the starting point to the ending point.
 
 export function dfs(grid, startNode, finishNode) {
-    //begin with empty array - to start a queue of nodes that would be visited
+    //begin with empty array - to start a stack of nodes that would be visited
     const visitedNodesInOrder = [];
     const nextNodesStack = [];
     // .push to add node in end of array
     nextNodesStack.push(startNode);
     while (nextNodesStack.length) {
         // while added new length - want to take out previous node to get the current node
+        // you pop off first node from the stack and place return it as a visitednode
+        // repeat the process to the node next to it until it reaches the end node
         const currentNode = nextNodesStack.pop();
         // if currentNode is at the ending point return all nodes visited to show path
         if (currentNode === finishNode) {
+          // 
             return visitedNodesInOrder;
         }
 

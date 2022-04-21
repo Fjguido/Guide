@@ -94,7 +94,7 @@ class Pathfinder extends Component {
       isWall: false,
       // -------------
       // true to be mark 
-      previousNode: null,
+      previousNode: false,
       isNode: true,
     };
   };
@@ -353,6 +353,8 @@ clearWalls() {
         const nodeClassName = document.getElementById(
           `node-${node.row}-${node.col}`,
         ).className;
+
+      
         if (
           nodeClassName !== 'node node-start' &&
           nodeClassName !== 'node node-finish'
